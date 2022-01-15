@@ -3,8 +3,20 @@ describe SchedulesController, type: :controller do
   
   describe "Schedules - Actions" do
 
-    let(:room) { Room.find(1) rescue Room.create }
-    let(:schedule) { Schedule.find(1) rescue Schedule.create(room: room) }
+    let(:room) { Room.create!(
+        description: "Room Example", 
+        start_time: Time.zone.local(2020,1,1,9,0), 
+        end_time: Time.zone.local(2020,1,1,18,0)
+      ) 
+    }
+
+    let(:schedule) { Schedule.find(1) rescue Schedule.create!(
+      room: room,
+      subject: "Subject Example",
+      start_at: Time.zone.local(2020,1,2,10,0),
+      end_at: Time.zone.local(2020,1,2,12,0)
+      ) 
+    }
 
     it "GET INDEX and return :ok" do
       get :index

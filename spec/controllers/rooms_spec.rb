@@ -3,7 +3,12 @@ describe RoomsController, type: :controller do
   
   describe "Rooms - Actions" do
 
-    let(:room) { Room.find(1) rescue Room.create }
+    let(:room) { Room.create!(
+        description: "Room Example", 
+        start_time: Time.zone.local(2020,1,1,9,0), 
+        end_time: Time.zone.local(2020,1,1,18,0)
+      ) 
+    }
 
     it "GET INDEX and return :ok" do
       get :index
