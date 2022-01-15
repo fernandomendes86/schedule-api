@@ -5,12 +5,13 @@ class SchedulesController < ApplicationController
   def index
     @schedules = Schedule.all
 
-    render json: @schedules
+    render json: @schedules, except: [:created_at, :updated_at], 
+                include: [room: { except: [:created_at, :updated_at] }]
   end
 
   # GET /schedules/1
   def show
-    render json: @schedule
+    render json: @schedule, include: [room: { except: [:created_at, :updated_at] } ]
   end
 
   # POST /schedules
