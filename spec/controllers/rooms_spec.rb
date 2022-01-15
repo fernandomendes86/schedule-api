@@ -3,7 +3,7 @@ describe RoomsController, type: :controller do
   
   describe "Rooms - Actions" do
 
-    let(:room) { Room.find(1) }
+    let(:room) { Room.find(1) rescue Room.create }
 
     it "GET INDEX and return :ok" do
       get :index
