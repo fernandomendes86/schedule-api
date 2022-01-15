@@ -11,7 +11,7 @@ class SchedulesController < ApplicationController
 
   # GET /schedules/1
   def show
-    render json: @schedule, include: [room: { except: [:created_at, :updated_at] } ]
+    render json: @schedule, except: [:created_at, :updated_at], include: [room: { except: [:created_at, :updated_at] } ]
   end
 
   # POST /schedules
