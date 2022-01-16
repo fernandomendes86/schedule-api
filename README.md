@@ -8,12 +8,14 @@ Environment requirements:
 
 Run the tests with rspec:
 
-`$ rspec`
+- `$ rspec`
   
 Run the application:
 
-`$ rails db:create db:migrate`
+- `$ bundle`
 
-`$ rails import:add_rooms_and_schedule`
+- `$ rails db:create db:migrate`
 
-`$ rails s`
+- `$ rails import:add_rooms_and_schedule`
+
+- `$ rails s`
