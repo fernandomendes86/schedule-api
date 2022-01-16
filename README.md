@@ -1,10 +1,16 @@
 # schedule-api
 
-Execute tests with rspec:
+Environment requirements:
+
+- Ruby 2.7.2
+
+- Rails 6.1.4.4
+
+Run the tests with rspec:
 
 `$ rspec`
   
-Execute Application:
+Run the application:
 
 `$ rails db:create db:migrate`
 
