@@ -87,6 +87,59 @@ describe SchedulesController, type: :controller do
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
+    it "POST - Entering valid time range" do
+      start_at = Time.zone.local(2020,1,1,14,0)
+      end_at = start_at+1.hour
+
+      post :create, params: { schedule: { 
+        subject: "Subject 1", start_at: start_at, end_at: end_at, room_id: room.id } 
+      }
+      expect(response).to have_http_status(:created)
+
+      start_at = Time.zone.local(2020,1,1,15,0)
+      end_at = start_at+1.hour
+      
+      post :create, params: { schedule: { 
+        subject: "Subject 1", start_at: start_at, end_at: end_at, room_id: room.id } 
+      }
+      expect(response).to have_http_status(:created)
+
+      start_at = Time.zone.local(2020,1,1,13,0)
+      end_at = start_at+1.hour
+      
+      post :create, params: { schedule: { 
+        subject: "Subject 1", start_at: start_at, end_at: end_at, room_id: room.id } 
+      }
+      expect(response).to have_http_status(:created)
+    end
+
+    it "POST - Entering invalid time range" do
+      start_at = Time.zone.local(2020,1,1,14,0)
+      end_at = start_at+1.hour
+
+      post :create, params: { schedule: { 
+        subject: "Subject 1", start_at: start_at, end_at: end_at, room_id: room.id } 
+      }
+      expect(response).to have_http_status(:created)
+
+      start_at = Time.zone.local(2020,1,1,14,2)
+      end_at = start_at+1.hour
+      
+      post :create, params: { schedule: { 
+        subject: "Subject 1", start_at: start_at, end_at: end_at, room_id: room.id } 
+      }
+      expect(response).to have_http_status(:unprocessable_entity)
+
+      start_at = Time.zone.local(2020,1,1,13,2)
+      end_at = start_at+1.hour
+      
+      post :create, params: { schedule: { 
+        subject: "Subject 1", start_at: start_at, end_at: end_at, room_id: room.id } 
+      }
+      expect(response).to have_http_status(:unprocessable_entity)
+
+    end
+
   end
   
 end

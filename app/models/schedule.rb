@@ -48,11 +48,13 @@ class Schedule < ApplicationRecord
   private
   
     def room_day_and_time
-      range = (self.start_at.to_time-1.minute..self.end_at.to_time-1.minute)
+      range = (self.start_at.to_time..self.end_at.to_time)
       array = self.room.schedules.select{|s| 
         (range.include? s.start_at.to_time) || (range.include? s.end_at.to_time)
       }
-      array.delete_if{ |x| x.id == self.id || x.end_at.to_time == self.start_at.to_time  }.present?
+      array.delete_if{ |x| 
+        x.id == self.id || x.end_at.to_time == self.start_at.to_time || x.start_at.to_time == self.end_at.to_time 
+      }.present?
     end
 
     def start_at_valid?
