@@ -23,7 +23,7 @@ describe SchedulesController, type: :controller do
       expect(response).to have_http_status(:ok)
     end
 
-    it "GET SHOW /schedules/1" do
+    it "GET SHOW /schedules/:id" do
       get :show, params: {id: schedule.id}
       response_body = JSON.parse(response.body, symbolize_names: true)
       expect(response_body[:id]).to eq(schedule.id) 
@@ -51,7 +51,7 @@ describe SchedulesController, type: :controller do
       expect(response).to have_http_status(:ok)
     end
 
-    it "DELETE DESTROY and return No Content  " do
+    it "DELETE DESTROY and return :no_content  " do
       put :destroy, params: { id: schedule.id }
       expect(response).to have_http_status(:no_content)
     end
@@ -65,7 +65,7 @@ describe SchedulesController, type: :controller do
       ) 
     }
 
-    it "Saturday :unprocessable_entity" do
+    it "POST - Saturday and return :unprocessable_entity" do
       start_at = Time.zone.local(2022,01,15,10,0)
       end_at = start_at+2.hour
       
@@ -76,7 +76,7 @@ describe SchedulesController, type: :controller do
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
-    it "Sunday :unprocessable_entity" do
+    it "POST - Sunday and return :unprocessable_entity" do
       start_at = Time.zone.local(2022,01,16,10,0)
       end_at = start_at+2.hour
       
@@ -87,7 +87,7 @@ describe SchedulesController, type: :controller do
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
-    it "POST - Entering valid time range" do
+    it "POST - Input with valid time range end return :created" do
       start_at = Time.zone.local(2020,1,1,14,0)
       end_at = start_at+1.hour
 
@@ -113,7 +113,7 @@ describe SchedulesController, type: :controller do
       expect(response).to have_http_status(:created)
     end
 
-    it "POST - Entering invalid time range" do
+    it "POST - Input with invalid time range end return :unprocessable_entity" do
       start_at = Time.zone.local(2020,1,1,14,0)
       end_at = start_at+1.hour
 

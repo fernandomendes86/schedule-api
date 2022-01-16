@@ -41,7 +41,7 @@ class Schedule < ApplicationRecord
 
   def same_room_day_and_time?
     if room_day_and_time
-      errors.add(:base, "There are times on the same day and room time")
+      errors.add(:base, "There are already times on the same day and room")
     end
   end
 
