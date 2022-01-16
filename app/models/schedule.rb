@@ -2,7 +2,7 @@ class Schedule < ApplicationRecord
   belongs_to :room
 
   validates :subject, :start_at, :end_at, presence: true
-  validate :valid_time?, :monday_to_friday?, :some_day?, :same_room_day_and_time?, :end_less_start_time?
+  validate :valid_time?, :monday_to_friday?, :same_day?, :same_room_day_and_time?, :end_less_start_time?
 
   # I18n format
   def start_at
@@ -27,7 +27,7 @@ class Schedule < ApplicationRecord
     end
   end
 
-  def some_day?
+  def same_day?
     unless (self.start_at.to_date == self.end_at.to_date)
       errors.add(:base, "Different days is invalid")
     end
