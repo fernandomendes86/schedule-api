@@ -15,33 +15,33 @@ class Schedule < ApplicationRecord
 
   def valid_time?
     unless (start_at_valid? && end_at_valid?)
-      errors.add(:base, "Invalid time")
+      errors.add(:error, "Invalid time")
     end
   end
 
   def monday_to_friday?
     if self.start_at.to_time.saturday? || self.end_at.to_time.saturday?
-      errors.add(:base, "Saturday is invalid")
+      errors.add(:error, "Saturday is invalid")
     elsif self.start_at.to_time.sunday? || self.end_at.to_time.sunday?
-      errors.add(:base, "Sunday is invalid")
+      errors.add(:error, "Sunday is invalid")
     end
   end
 
   def same_day?
     unless (self.start_at.to_date == self.end_at.to_date)
-      errors.add(:base, "Different days is invalid")
+      errors.add(:error, "Different days is invalid")
     end
   end
 
   def end_less_start_time?
     if self.end_at.to_time <= self.start_at.to_time 
-      errors.add(:base, "End time is less than start time")
+      errors.add(:error, "End time is less than start time")
     end
   end
 
   def same_room_day_and_time?
     if room_day_and_time
-      errors.add(:base, "There are already times on the same day and room")
+      errors.add(:error, "There are already times on the same day and room")
     end
   end
 

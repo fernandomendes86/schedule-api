@@ -25,8 +25,8 @@ describe SchedulesController, type: :controller do
 
     it "GET SHOW /schedules/:id" do
       get :show, params: {id: schedule.id}
-      response_body = JSON.parse(response.body, symbolize_names: true)
-      expect(response_body[:id]).to eq(schedule.id) 
+      response_body = JSON.parse(response.body, symbolize_names: true).fetch(:data)
+      expect(response_body[:id].to_i).to eq(schedule.id) 
     end
 
     it "POST CREATE and return :created" do
@@ -34,7 +34,7 @@ describe SchedulesController, type: :controller do
       end_at = start_at+2.hour
       post :create, params: { schedule: { 
         subject: "Subject", start_at: start_at, end_at: end_at, room_id: room.id } }
-      expect(response.content_type).to eq("application/json; charset=utf-8")
+      expect(response.content_type).to eq("application/vnd.api+json; charset=utf-8")
       expect(response).to have_http_status(:created)
     end
 
@@ -71,8 +71,10 @@ describe SchedulesController, type: :controller do
       
       post :create, params: { schedule: { 
         subject: "Subject", start_at: start_at, end_at: end_at, room_id: room.id } }
-      message = JSON.parse(response.body).fetch("base")
-      expect(message).to include(/Saturday/)
+
+      message = JSON.parse(response.body, symbolize_names: true)
+      message = message[:errors][0][:detail].to_s
+      expect(message).to eq("Error Saturday is invalid")
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
@@ -82,8 +84,9 @@ describe SchedulesController, type: :controller do
       
       post :create, params: { schedule: { 
         subject: "Subject", start_at: start_at, end_at: end_at, room_id: room.id } }
-      message = JSON.parse(response.body).fetch("base")
-      expect(message).to include(/Sunday/)
+      message = JSON.parse(response.body, symbolize_names: true)
+      message = message[:errors][0][:detail].to_s
+      expect(message).to eq("Error Sunday is invalid")
       expect(response).to have_http_status(:unprocessable_entity)
     end
 

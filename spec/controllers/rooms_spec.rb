@@ -17,8 +17,8 @@ describe RoomsController, type: :controller do
 
     it "GET SHOW /rooms/:id" do
       get :show, params: {id: room.id}
-      response_body = JSON.parse(response.body, symbolize_names: true)
-      expect(response_body[:id]).to eq(room.id) 
+      response_body = JSON.parse(response.body, symbolize_names: true)[:data]
+      expect(response_body[:id].to_i).to eq(room.id) 
     end
 
     it "POST CREATE and return :created" do
@@ -26,7 +26,7 @@ describe RoomsController, type: :controller do
       end_time = Time.now+8.hour
       post :create, params: { room: { 
         description: "Room Teste", start_time: start_time, end_time: end_time } }
-      expect(response.content_type).to eq("application/json; charset=utf-8")
+      expect(response.content_type).to eq("application/vnd.api+json; charset=utf-8")
       expect(response).to have_http_status(:created)
     end
 

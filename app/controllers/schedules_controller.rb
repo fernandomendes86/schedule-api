@@ -5,13 +5,13 @@ class SchedulesController < ApplicationController
   def index
     @schedules = Schedule.all
 
-    render json: @schedules, except: [:created_at, :updated_at], 
-                include: [room: { except: [:created_at, :updated_at] }]
+    render jsonapi: @schedules, include: [:room]#, except: [:created_at, :updated_at], 
+                #include: [room: { except: [:created_at, :updated_at] }]
   end
 
   # GET /schedules/1
   def show
-    render json: @schedule, except: [:created_at, :updated_at], include: [room: { except: [:created_at, :updated_at] } ]
+    render jsonapi: @schedule, include: [:room] #except: [:created_at, :updated_at], include: [room: { except: [:created_at, :updated_at] } ]
   end
 
   # POST /schedules
@@ -19,18 +19,18 @@ class SchedulesController < ApplicationController
     @schedule = Schedule.new(schedule_params)
 
     if @schedule.save
-      render json: @schedule, status: :created, location: @schedule
+      render jsonapi: @schedule, status: :created, location: @schedule
     else
-      render json: @schedule.errors, status: :unprocessable_entity
+      render jsonapi_errors: @schedule.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /schedules/1
   def update
     if @schedule.update(schedule_params)
-      render json: @schedule
+      render jsonapi: @schedule
     else
-      render json: @schedule.errors, status: :unprocessable_entity
+      render jsonapi_errors: @schedule.errors, status: :unprocessable_entity
     end
   end
 
